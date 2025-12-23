@@ -3,20 +3,32 @@ const Question = require("../models/Question");
 
 const router = express.Router();
 
-// GET QUESTIONS (NEWEST FIRST)
+/**
+ * ===============================
+ * GET ALL QUESTIONS (NEWEST FIRST)
+ * ===============================
+ */
 router.get("/", async (req, res) => {
   try {
     const questions = await Question.find().sort({ _id: -1 });
-    res.json(questions);
+    return res.status(200).json(questions);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({
+      message: "Failed to fetch questions",
+      error: err.message
+    });
   }
 });
 
-// ADD QUESTION (VALIDATION)
+/**
+ * ===============================
+ * ADD NEW QUESTION (WITH VALIDATION)
+ * ===============================
+ */
 router.post("/", async (req, res) => {
   const { question, options, answer } = req.body;
 
+  // 🔒 Validation
   if (
     !question ||
     !question.trim() ||
@@ -26,7 +38,9 @@ router.post("/", async (req, res) => {
     !answer ||
     !options.includes(answer)
   ) {
-    return res.status(400).json({ message: "Invalid question data" });
+    return res.status(400).json({
+      message: "Invalid question data"
+    });
   }
 
   try {
@@ -37,9 +51,13 @@ router.post("/", async (req, res) => {
     });
 
     await newQuestion.save();
-    res.json(newQuestion);
+
+    return res.status(201).json(newQuestion);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({
+      message: "Failed to add question",
+      error: err.message
+    });
   }
 });
 

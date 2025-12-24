@@ -6,31 +6,36 @@ const router = express.Router();
 
 /**
  * ===============================
- * USER SUBMITS SCORE (UPSERT)
+ * USER SUBMITS SCORE (UPSERT + QUESTION TRACKING)
  * ===============================
  */
 router.post("/", verifyToken, async (req, res) => {
   try {
-    const { score, total } = req.body;
+    const { score, total, answeredQuestions } = req.body;
 
-    if (score === undefined || total === undefined) {
+    if (
+      score === undefined ||
+      total === undefined ||
+      !Array.isArray(answeredQuestions)
+    ) {
       return res.status(400).json({
-        message: "Score data missing"
+        message: "Invalid score data"
       });
     }
 
-    // ✅ UPSERT: update if exists, insert if not
     const savedScore = await Score.findOneAndUpdate(
-      { userId: req.user.id },   // find by user
+      { userId: req.user.id },
       {
         userName: req.user.name,
         score,
-        total
+        total,
+        $addToSet: {
+          answeredQuestions: { $each: answeredQuestions }
+        }
       },
       {
         new: true,
-        upsert: true,           // 🔥 KEY FIX
-        setDefaultsOnInsert: true
+        upsert: true
       }
     );
 

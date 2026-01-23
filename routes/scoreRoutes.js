@@ -5,9 +5,9 @@ const { verifyToken, isAdmin } = require("../middleware/authMiddleware");
 const router = express.Router();
 
 /**
- * ===============================
+ *
  * USER SUBMITS SCORE (UPSERT + QUESTION TRACKING)
- * ===============================
+ *
  */
 router.post("/", verifyToken, async (req, res) => {
   try {
@@ -24,7 +24,9 @@ router.post("/", verifyToken, async (req, res) => {
     }
 
     const savedScore = await Score.findOneAndUpdate(
-      { userId: req.user.id },
+      { 
+        userId: req.user.id 
+      },
       {
         userName: req.user.name,
         score,
@@ -52,9 +54,9 @@ router.post("/", verifyToken, async (req, res) => {
 });
 
 /**
- * ===============================
+ * 
  * GET LOGGED-IN USER SCORE
- * ===============================
+ * 
  */
 router.get("/me", verifyToken, async (req, res) => {
   try {
@@ -71,9 +73,8 @@ router.get("/me", verifyToken, async (req, res) => {
 });
 
 /**
- * ===============================
+ *
  * ADMIN VIEWS ALL SCORES
- * ===============================
  */
 router.get("/", verifyToken, isAdmin, async (req, res) => {
   try {

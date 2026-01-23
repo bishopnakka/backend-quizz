@@ -8,7 +8,7 @@ const app = express();
 // JSON Middleware
 app.use(express.json());
 
-// 🔐 Allowed Frontend Origins
+//  Allowed Frontend Origins
 const allowedOrigins = [
   "https://poulraju.vercel.app", // Your main frontend
   "https://poulraju-git-master-n-bishops-projects.vercel.app", // Preview deploy
@@ -16,14 +16,14 @@ const allowedOrigins = [
   "http://localhost:3000"
 ];
 
-// 🌍 CORS Configuration
+// CORS Configuration
 app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        console.log("❌ Blocked by CORS:", origin);
+        console.log(" Blocked by CORS:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
@@ -35,7 +35,7 @@ app.use(
 
 // Debug Logs
 app.use((req, res, next) => {
-  console.log(`➡️ ${req.method} ${req.url}`);
+  console.log(` ${req.method} ${req.url}`);
   next();
 });
 
@@ -52,11 +52,11 @@ app.use("/scores", scoreRoutes);
 // MongoDB Connect
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch(err => console.error("❌ DB Error:", err));
+  .then(() => console.log(" MongoDB Connected"))
+  .catch(err => console.error(" DB Error:", err));
 
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
-  console.log(`🚀 Backend Live at http://localhost:${PORT}`)
+  console.log(` Backend Live at http://localhost:${PORT}`)
 );

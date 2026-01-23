@@ -1,14 +1,12 @@
 const jwt = require("jsonwebtoken");
 
 /**
- * ===============================
  * VERIFY JWT TOKEN
- * ===============================
  */
 exports.verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  // 🔒 Check header format
+  //  Check header format
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
       message: "Authorization token missing or invalid"
@@ -29,9 +27,7 @@ exports.verifyToken = (req, res, next) => {
 };
 
 /**
- * ===============================
  * ADMIN ACCESS ONLY
- * ===============================
  */
 exports.isAdmin = (req, res, next) => {
   if (!req.user || req.user.role !== "ADMIN") {

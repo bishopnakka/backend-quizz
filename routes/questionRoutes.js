@@ -4,9 +4,7 @@ const Question = require("../models/Question");
 const router = express.Router();
 
 /**
- * ===============================
  * GET ALL QUESTIONS (NEWEST FIRST)
- * ===============================
  */
 router.get("/", async (req, res) => {
   try {
@@ -21,23 +19,16 @@ router.get("/", async (req, res) => {
 });
 
 /**
- * ===============================
  * ADD NEW QUESTION (WITH VALIDATION)
- * ===============================
  */
 router.post("/", async (req, res) => {
   const { question, options, answer } = req.body;
 
-  // 🔒 Validation
+  // Validation
   if (
-    !question ||
-    !question.trim() ||
-    !Array.isArray(options) ||
-    options.length !== 4 ||
-    options.some(opt => !opt || !opt.trim()) ||
-    !answer ||
-    !options.includes(answer)
-  ) {
+    !question || !question.trim() || !Array.isArray(options) || options.length !== 4 ||
+    options.some(opt => !opt || !opt.trim()) || !answer || 
+    !options.includes(answer)) {
     return res.status(400).json({
       message: "Invalid question data"
     });

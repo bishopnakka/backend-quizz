@@ -13,6 +13,7 @@ const allowedOrigins = [
   "https://poulraju.vercel.app", // Your main frontend
   "https://poulraju-git-master-n-bishops-projects.vercel.app", // Preview deploy
   "https://frontend-quizz.netlify.app",
+  "https://poulraju.netlify.app",
   "http://localhost:3000"
 ];
 
